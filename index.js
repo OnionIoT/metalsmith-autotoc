@@ -124,7 +124,12 @@ module.exports = function(options) {
     });
 
     async.each(fileList, function(file, done) {
-      var filePath = file.path ? file.path.href + file.path.base: '';
+      var filePath;
+      if (typeof file.path === 'string' || file.path instanceof String) {
+        filePath = file.path
+      } else {
+        filePath = file.path ? file.path.href + file.path.base: '';
+      }
 
       if(!minimatch(filePath, options.pattern)) {
         done();
